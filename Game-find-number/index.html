@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Game-find-number</title>
+  <style media="screen">
+    #parent {
+    	text-align: center;
+    }
+    #field {
+    	display: inline-block;
+    }
+
+    #field td {
+    	padding: 20px;
+    	border: 1px solid black;
+    	cursor: pointer;
+    }
+    .active {
+    	background: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="parent">
+	<table id="field"></table>
+
+  <script type="text/javascript">
+    let field = document.querySelector('#field');
+    start(2)
+
+
+    function build(field, arr) {
+      field.innerHTML = '';
+      let ret_arr = []
+
+      for(let i = 0; i < arr.length; i++) {
+        let tr = document.createElement('tr');
+
+        for(let j = 0; j < arr[i].length; j++) {
+          let td = document.createElement('td');
+          td.innerHTML = arr[i][j];
+          ret_arr.push(td);
+          tr.append(td);
+        }
+
+        field.append(tr);
+      }
+
+      return ret_arr;
+    }
+
+    function prepare(size) {
+      let arr = [];
+
+      arr = range(size * size);
+      arr = shuffle(arr);
+      arr = chunk(arr, size);
+
+      return arr;
+    }
+
+    function range(count) {
+      let arr = [];
+
+      for (let i = 1; i <= count; i++) {
+        arr.push(i);
+      }
+
+      return arr;
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+
+      return arr;
+    }
+
+    function chunk(arr, size) {
+      let big_arr = [];
+      for (let i = 0; i < arr.length; i += size) {
+         let small_arr = arr.slice(i, i + size);
+        big_arr.push(small_arr)
+      }
+
+      return big_arr;
+    }
+
+    function activate(cells, size) {
+      let last = size * size;
+      let counter = 1;
+
+      for (let cell of cells) {
+        cell.addEventListener('click', () => {
+          if(counter === Number(cell.innerHTML)) {
+            cell.classList.add('active');
+
+          if(last === Number(cell.innerHTML)) {
+            let new_size = size + 1;
+            start(new_size);
+          }
+
+            counter++;
+          }
+        })
+      }
+    }
+
+    function start(size) {
+      activate(build(field, prepare(size)), size);
+    }
+  </script>
+</div>
+</body>
+</html>

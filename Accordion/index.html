@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accordion</title>
+  <style media="screen">
+    #parent {
+    	margin: 0 auto;
+    	width: 400px;
+    }
+    .tab {
+    	margin-bottom: 10px;
+    }
+
+    .tab .link a {
+    	display: block;
+    	padding: 10px;
+    	color: black;
+    	text-decoration: none;
+    	text-align: center;
+    	background: #f8f8f8;
+    	border: 1px solid gray;
+    }
+    .tab .link:hover a {
+    	background: #f2f2f2;
+    }
+
+    .tab:not(.active) .text {
+    	display: none;
+    }
+    .tab .text {
+    	border: 1px dashed gray;
+    	border-top: none;
+
+    	padding: 10px;
+    	height: 300px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="parent">
+  	<div class="tab active">
+  		<div class="link">
+  			<a href="#" >вкладка 1</a>
+  		</div>
+  		<div class="text">
+  			текст вкладки 1
+  		</div>
+  	</div>
+  	<div class="tab">
+  		<div class="link">
+  			<a href="#" >вкладка 2</a>
+  		</div>
+  		<div class="text">
+  			текст вкладки 2
+  		</div>
+  	</div>
+  	<div class="tab">
+  		<div class="link">
+  			<a href="#" >вкладка 3</a>
+  		</div>
+  		<div class="text">
+  			текст вкладки 3
+  		</div>
+  	</div>
+  </div>
+
+  <script type="text/javascript">
+    let as = document.querySelectorAll('a');
+    let tabs = document.querySelectorAll('.tab');
+
+    for(let a of as) {
+      a.addEventListener('click', () => {
+        for(let tab of tabs) {
+          tab.classList.remove('active')
+        }
+
+        a.parentElement.parentElement.classList.add('active');
+      })
+    }
+  </script>
+</body>
+</html>

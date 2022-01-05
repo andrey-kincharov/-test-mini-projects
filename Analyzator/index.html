@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Document</title>
+</head>
+<body>
+
+  <textarea name="name" rows="8" cols="80"></textarea>
+  <p><input id="input1" type="checkbox"><span> Количество слов в тексте</span></p>
+  <p><input id="input2" type="checkbox"><span> Количество символов в тексте</span></p>
+  <p><input id="input3" type="checkbox"><span> Количество символов в тексте без пробелов</span></p>
+  <p><input id="input4" type="checkbox"><span> Процентное содержание каждого символа в тексте</span></p>
+
+  <script type="text/javascript">
+
+    let textarea = document.querySelector('textarea');
+    textarea.addEventListener('blur', () => {
+      let input1 = document.getElementById('input1');
+      let input2 = document.getElementById('input2');
+      let input3 = document.getElementById('input3');
+      let input4 = document.getElementById('input4');
+      let str = textarea.value;
+      let arrWords = str.split(' ');
+      let arrAnswers = []
+
+      if(input1.checked) {
+        arrAnswers.push('Количество слов в тексте: ' + arrWords.length);
+      }
+
+      if(input2.checked) {
+        arrAnswers.push('Количество символов в тексте: ' + str.length);
+      }
+
+      if(input3.checked) {
+        arrAnswers.push('Количество символов в тексте без пробелов: ' + getSymbols(arrWords))
+      }
+
+      if(input4.checked) {
+        arrAnswers.push(`Процентное содержание каждого символа в тексте:\n` + getAnswer(getPercentage(str)) )
+      }
+
+
+      alert(getAnswer(arrAnswers));
+    });
+
+    function getSymbols(arr) {
+      let symbols = 0;
+      for(let elem of arr) {
+        for(let symbol of elem) {
+          symbols++;
+        }
+      }
+      return symbols;
+    }
+
+    function getPercentage(str) {
+      let set = new Set(str);
+      let arrSymbols = str.split('');
+      let arr = [];
+      for(let elem of set) {
+        arr.push(elem + ': ' + arrSymbols.filter(el => el === elem).length * 100 / arrSymbols.length + ' %');
+      }
+      return arr;
+    }
+
+    function getAnswer(arr) {
+      let str = arr.join(`\n`);
+      return str;
+    }
+
+  </script>
+</body>
+</html>
